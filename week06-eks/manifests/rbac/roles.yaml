@@ -1,0 +1,24 @@
+# Developer role — can view pods and logs but NOT delete or scale
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: developer
+  namespace: devops-app
+rules:
+- apiGroups: [""]
+  resources: ["pods", "pods/log", "services"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  verbs: ["get", "list", "watch"]
+---
+# Ops role — full control in devops-app namespace
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: ops
+  namespace: devops-app
+rules:
+- apiGroups: ["", "apps"]
+  resources: ["*"]
+  verbs: ["*"]
